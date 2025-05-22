@@ -1,0 +1,77 @@
+@startuml
+
+' Style général
+skinparam classAttributeIconSize 0
+skinparam linetype ortho
+skinparam shadowing true
+skinparam classFontStyle bold
+skinparam classFontColor Black
+
+' ========== ENTITÉS ==========
+
+class User {
+  +int Id
+  +string FullName
+  +string Email
+  +string Phone
+  +string Role         <<Worker/Coordinator>>
+  +string Language
+}
+
+class Event {
+  +int Id
+  +string Name
+  +DateTime Date
+  +string Location
+  +string DressCode
+  +string Notes
+}
+
+class Shift {
+  +int Id
+  +DateTime StartTime
+  +DateTime EndTime
+  +string Role
+}
+
+class ShiftAssignment {
+  +int Id
+  +string Status        <<Pending / Accepted / Declined>>
+  +DateTime? CheckInTime
+  +DateTime? CheckOutTime
+}
+
+class PerformanceReview {
+  +int Id
+  +int Rating           <<1 à 5>>
+  +string Feedback
+}
+
+class Notification {
+  +int Id
+  +string Message
+  +DateTime CreatedAt
+  +bool IsRead
+}
+
+' ========== RELATIONS ==========
+
+User "1" --> "0..*" ShiftAssignment : affecté à
+User "1" --> "0..*" PerformanceReview : reçoit
+User "1" --> "0..*" Notification : reçoit
+
+Event "1" --> "0..*" Shift : contient
+
+Shift "1" --> "0..*" ShiftAssignment : lié à
+Shift "1" --> "0..*" PerformanceReview : évalué sur
+Shift "0..*" --> "1" Event : pour
+
+ShiftAssignment "1" --> "1" User
+ShiftAssignment "1" --> "1" Shift
+
+PerformanceReview "1" --> "1" User
+PerformanceReview "1" --> "1" Shift
+
+Notification "1" --> "1" User
+
+@enduml
