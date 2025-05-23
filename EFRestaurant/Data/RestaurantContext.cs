@@ -8,6 +8,8 @@ public class RestaurantContext : DbContext
     public DbSet<Employee> Employees { get; set; } = null!;
     public DbSet<Manager> Managers { get; set; } = null!;
     public DbSet<Event> Events { get; set; } = null!;
+    public DbSet<Shift> Shifts { get; set; } = null!;
+    public DbSet<ShiftAssignment> ShiftAssignments { get; set; } = null!;
     public string DbPath { get; private set; }
 
     public RestaurantContext()
